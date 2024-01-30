@@ -13,14 +13,6 @@ void main() async {
     join(await getDatabasesPath(), 'user_database.db'),
     onCreate: (db, version) async {
       await db.execute('''
-        CREATE TABLE training (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          date DATE,
-          longitude INT,
-          latitude INT,
-          media TEXT
-        );
-
         CREATE TABLE user (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           firstName TEXT,

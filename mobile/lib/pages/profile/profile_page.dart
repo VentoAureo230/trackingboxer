@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+import '../../models/user.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -28,11 +32,31 @@ class ProfilePage extends StatelessWidget {
                 hintText: 'Nom'
               ),
             ),
-            ElevatedButton(onPressed: () {
-              // save data to db
+            ElevatedButton(onPressed: () async {
+              await _saveToDataBase(firstNameController, lastNameController);
             }, child: const Text('Save'))
         ]),
       ),
     );
   }
+}
+
+Future _saveToDataBase(firstNameController, lastNameController) async {
+  final database = await openDatabase(
+      join(await getDatabasesPath(), 'user_database.db'),
+      version: 1,
+    );
+
+  final String firstName = firstNameController.text;
+  final String lastName = lastNameController.text;
+  const String imageUrl = ''; 
+  
+  final user = User(0, firstName, lastName, imageUrl);
+
+  await database.insert(
+      'user',
+      user.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  await database.close();
 }
