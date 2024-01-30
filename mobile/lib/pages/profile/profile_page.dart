@@ -19,6 +19,10 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           children: [
             CircleAvatar(),
+            Text('Nom'),
+            Text('Prénom'),
+
+
             TextField(
               controller: firstNameController,
               autofocus: true,
@@ -32,6 +36,10 @@ class ProfilePage extends StatelessWidget {
                 hintText: 'Nom'
               ),
             ),
+            ElevatedButton(onPressed: () {
+              
+            }, child: Text('Upload avatar')),
+
             ElevatedButton(onPressed: () async {
               await _saveToDataBase(firstNameController, lastNameController);
             }, child: const Text('Save'))
@@ -49,7 +57,7 @@ Future _saveToDataBase(firstNameController, lastNameController) async {
 
   final String firstName = firstNameController.text;
   final String lastName = lastNameController.text;
-  const String imageUrl = ''; 
+  final String imageUrl = ''; 
   
   final user = User(0, firstName, lastName, imageUrl);
 
