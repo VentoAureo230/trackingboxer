@@ -41,20 +41,20 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          title: const Text('Please choose media to select'),
+          title: const Text('Sélectionnez une image'),
           content: SizedBox(
             height: MediaQuery.of(context).size.height / 6,
             child: Column(
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    Navigator.pop(context);
                     String? imageUrl = await getImage(ImageSource.gallery);
                     if (imageUrl != null) {
                       onImageSelected(imageUrl);
                     } else {
                       onImageSelected(imageUrl = 'Cancel');
                     }
+                    Navigator.pop(context);
                   },
                   child: const Row(
                     children: [
@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
             future: _getCurrentUser(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
@@ -114,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 );
               } else {
-                return Text('Aucun utilisateur connecté');
+                return const Text('Aucun utilisateur connecté');
               }
             },
           ),
@@ -122,7 +122,20 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: Column(children: [
-                
+                TextField(
+                  controller: firstNameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Prénom',
+                  ),
+                ),
+                TextField(
+                  controller: lastNameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Nom',
+                  ),
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -158,7 +171,7 @@ Future _saveToDataBase(
 
   final String firstName = firstNameController.text;
   final String lastName = lastNameController.text;
-  final String imageUrl = '';
+  late String imageUrl = '';
   
   if (userId != null) {
     final user = User(
@@ -176,5 +189,5 @@ Future _saveToDataBase(
   } else {
     print('Error insert user');
   }
-  await database.close();
+  //await database.close();
 }
