@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
@@ -67,32 +69,43 @@ class _ProfilePageState extends State<ProfilePage> {
         title: const Text('Profile'),
       ),
       body: Center(
-        child: Column(
-          children: [
-            CircleAvatar(),
-            Text('Nom'),
-            Text('Prénom'),
-            TextField(
-              controller: firstNameController,
-              autofocus: true,
-              decoration: const InputDecoration(
-                hintText: 'Prénom'
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+          child: Column(
+            children: [
+              CircleAvatar(),
+              Text('Nom'),
+              Text('Prénom'),
+              TextField(
+                controller: firstNameController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Prénom'
+                ),
               ),
-            ),
-            TextField(
-              controller: lastNameController,
-              decoration: const InputDecoration(
-                hintText: 'Nom'
+              const SizedBox(height: 15,),
+              TextField(
+                controller: lastNameController,
+                decoration: const InputDecoration(
+                  hintText: 'Nom'
+                ),
               ),
-            ),
-            ElevatedButton(onPressed: () {
-              myAlert(context);
-            }, child: const Text('Upload avatar')),
-
-            ElevatedButton(onPressed: () async {
-              await _saveToDataBase(firstNameController, lastNameController);
-            }, child: const Text('Save'))
-        ]),
+              const SizedBox(height: 15,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(onPressed: () {
+                    myAlert(context);
+                    print((context));
+                  }, child: const Text('Upload avatar')),
+                            
+                  ElevatedButton(onPressed: () async {
+                    await _saveToDataBase(firstNameController, lastNameController);
+                  }, child: const Text('Save')),
+                ],
+              )
+          ]),
+        ),
       ),
     );
   }
