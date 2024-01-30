@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:trackingboxer/pages/profile/profile_page.dart';
 
 import 'camera_page.dart';
 
@@ -14,7 +15,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Home Page")),
+      appBar: AppBar(
+        title: const Text("Home Page"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => ProfilePage()));
+            }, 
+            icon: const Icon(Icons.person))
+        ],),
       body: SafeArea(
         child: Center(
             child: ElevatedButton(
