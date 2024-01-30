@@ -1,21 +1,35 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-class AnimatedIcon extends StatefulWidget {
-  const AnimatedIcon({super.key});
+import '../camera_page.dart';
+
+class MyAnimatedIcon extends StatefulWidget {
+  const MyAnimatedIcon({super.key});
 
   @override
-  _AnimatedIconState createState() => _AnimatedIconState();
+  _MyAnimatedIconState createState() => _MyAnimatedIconState();
 }
 
-class _AnimatedIconState extends State<AnimatedIcon> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1500),
-  )..repeat();
+class _MyAnimatedIconState extends State<MyAnimatedIcon> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
-  late final Animation<double> _scaleAnimation = Tween<double>(begin: 0.6, end: 1.2).animate(_controller);
+  @override
+  void initState() {
+    super.initState();
 
-  late final Animation<double> _fadeAnimation = Tween<double>(begin: 1, end: 0.2).animate(_controller);
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 1, end: 1.5).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -29,21 +43,34 @@ class _AnimatedIconState extends State<AnimatedIcon> with SingleTickerProviderSt
       alignment: AlignmentDirectional.center,
       children: [
         FadeTransition(
-          opacity: _fadeAnimation,
+          opacity: _controller,
           child: ScaleTransition(
-            scale: _scaleAnimation,
+            scale: _animation,
             child: Container(
-              width: 50 * 1.5,
-              height: 50 * 1.5,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.green.shade300),
+              width: 50 * 5,
+              height: 50 * 5,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.purple.shade300),
             ),
           ),
         ),
-        Icon(
-          Icons.play_circle,
-          size: 50,
-          color: Colors.green,
-        ),
+        ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(), 
+        backgroundColor: Colors.purple,
+        padding: const EdgeInsets.all(100),
+      ),
+      onPressed: () async {
+        List<CameraDescription> cameras = await availableCameras();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => CameraPage(cameras: cameras)),
+              );
+      },
+      child: const Text(
+        'Démarrer l\'entrainement',
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
       ],
     );
   }
