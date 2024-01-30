@@ -1,8 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:trackingboxer/pages/auth/login_page.dart';
 import 'database/database_helper.dart';
 

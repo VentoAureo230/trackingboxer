@@ -12,7 +12,7 @@ import '../../database/database_helper.dart';
 import '../../models/user.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key});
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();

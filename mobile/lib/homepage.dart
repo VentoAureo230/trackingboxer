@@ -1,9 +1,7 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:trackingboxer/components/pulse.dart';
 import 'package:trackingboxer/pages/profile/profile_page.dart';
 
-import 'camera_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
