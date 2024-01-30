@@ -11,10 +11,25 @@ void main() async {
   print(url);
   final database = openDatabase(
     join(await getDatabasesPath(), 'user_database.db'),
-    onCreate: (db, version) {
-      return db.execute('CREATE TABLE training ('
-          'id INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, longitude INT, latitude INT, media TEXT)');
+    onCreate: (db, version) async {
+      await db.execute('''
+        CREATE TABLE training (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date DATE,
+          longitude INT,
+          latitude INT,
+          media TEXT
+        );
+
+        CREATE TABLE user (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          firstName TEXT,
+          lastName TEXT,
+          imageUrl TEXT
+        );
+      ''');
     },
+
     version: 1,
   );
   runApp(const MyApp());
