@@ -2,12 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'package:path/path.dart';
 import 'package:trackingboxer/pages/auth/login_page.dart';
-
-
-import 'homepage.dart';
 import 'database/database_helper.dart';
 
 void main() {
@@ -24,7 +20,7 @@ class MyApp extends StatelessWidget {
       future: DatabaseHelper().database,
       builder: (BuildContext context, AsyncSnapshot<Database> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return const MaterialApp(
+          return MaterialApp(
             title: 'Flutter Camera Demo',
             debugShowCheckedModeBanner: false,
             home: LoginPage(),
