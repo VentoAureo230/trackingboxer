@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:trackingboxer/homepage.dart';
 
+import '../../database/database_helper.dart';
 import '../../models/user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -82,12 +83,15 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 Future<bool> _saveToDataBase(String email, String password) async {
-  final database = await openDatabase(
-    join(await getDatabasesPath(), 'user_database.db'),
-    version: 1,
-  );
+  final database = await DatabaseHelper().database;
 
-  final user = User(0, email, password, '', '', '');
+  final user = User(
+      id: 0,
+      firstName: 'first_name',
+      lastName: 'last_name',
+      profileUrl: 'profileUrl',
+      email: email,
+      password: password);
 
   try {
     await database.insert(
@@ -95,7 +99,6 @@ Future<bool> _saveToDataBase(String email, String password) async {
       user.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    await database.close();
 
     return true;
   } catch (e) {
