@@ -4,7 +4,6 @@ import 'package:path/path.dart';
 
 import 'homepage.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   String url = await getDatabasesPath();
@@ -18,10 +17,29 @@ void main() async {
           firstName TEXT,
           lastName TEXT,
           imageUrl TEXT
-        );
+        )
+      ''');
+
+      await db.execute('''
+        CREATE TABLE photos (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          url TEXT NOT NULL,
+          longitude TEXT NOT NULL,
+          latitude TEXT NOT NULL,
+          publication_date TEXT NOT NULL
+        )
+      ''');
+
+      await db.execute('''
+        CREATE TABLE trainings (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          timer INTEGER NOT NULL,
+          jump_count INTEGER NOT NULL,
+          photo_id INTEGER NOT NULL,
+          FOREIGN KEY (photo_id) REFERENCES photos(id)
+        )
       ''');
     },
-
     version: 1,
   );
   runApp(const MyApp());
