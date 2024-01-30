@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
       future: DatabaseHelper().database,
       builder: (BuildContext context, AsyncSnapshot<Database> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
+          print('Db loaded');
+          return const MaterialApp(
             title: 'Flutter Camera Demo',
             debugShowCheckedModeBanner: false,
             home: LoginPage(),

@@ -128,12 +128,12 @@ Future _saveToDataBase(
   final String lastName = lastNameController.text;
   final String imageUrl = '';
 
-  final user = User(0, firstName, lastName, imageUrl);
+  //final user = User(0, firstName, lastName, imageUrl);
 
-  await database.insert(
-    'user',
-    user.toMap(),
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );
+  //await database.insert(
+  //  'user',
+  //  user.toMap(),
+  //  conflictAlgorithm: ConflictAlgorithm.replace,
+  //);
   await database.close();
 }
