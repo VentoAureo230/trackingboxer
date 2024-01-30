@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:trackingboxer/homepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../database/database_helper.dart';
 import '../../models/user.dart';
@@ -58,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 if (email.isNotEmpty && password.isNotEmpty) {
                   bool saveResult = await _saveToDataBase(email, password);
+                  print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!saveResult: $saveResult');
                   if (saveResult) {
                     await Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const HomePage()));
@@ -86,23 +87,26 @@ Future<bool> _saveToDataBase(String email, String password) async {
   final database = await DatabaseHelper().database;
 
   final user = User(
-      id: 0,
       firstName: 'first_name',
       lastName: 'last_name',
       profileUrl: 'profileUrl',
       email: email,
       password: password);
-
+  
   try {
-    await database.insert(
+    int id = await database.insert(
       'user',
       user.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('userId', id);
+    print(prefs.getInt('userId'));
     return true;
   } catch (e) {
     print('Error creating user: $e');
     return false;
   }
+  
 }
