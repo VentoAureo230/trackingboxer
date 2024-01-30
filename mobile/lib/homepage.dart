@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
               print("No cameras available.");
             }
           },
-          child: const Text("Take a Picture"),
+          child: const Text("Démarrer l'entrainement"),
         )),
       ),
     );

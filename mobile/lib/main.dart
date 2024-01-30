@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 import 'homepage.dart';
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  String url = await getDatabasesPath();
+  print(url);
+  final database = openDatabase(
+    join(await getDatabasesPath(), 'user_database.db'),
+    onCreate: (db, version) {
+      return db.execute('CREATE TABLE training ('
+          'id INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, longitude INT, latitude INT, media TEXT)');
+    },
+    version: 1,
+  );
   runApp(const MyApp());
 }
 
