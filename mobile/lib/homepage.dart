@@ -1,12 +1,13 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:trackingboxer/pages/profile/profile_page.dart';
 
 import 'camera_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
+  
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -16,7 +17,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Page"),
+        elevation: 0,
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {
@@ -38,7 +40,7 @@ class _HomePageState extends State<HomePage> {
               print("No cameras available.");
             }
           },
-          child: const Text("Démarrer l'entrainement"),
+          child: const Text("Démarrer l'entrainement")
         )),
       ),
     );
