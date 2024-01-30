@@ -3,6 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'package:path/path.dart';
+import 'package:trackingboxer/pages/auth/login_page.dart';
+
+
 import 'homepage.dart';
 import 'database/database_helper.dart';
 
@@ -23,12 +27,13 @@ class MyApp extends StatelessWidget {
           return const MaterialApp(
             title: 'Flutter Camera Demo',
             debugShowCheckedModeBanner: false,
-            home: HomePage(),
+            home: LoginPage(),
           );
         } else {
           return const CircularProgressIndicator();
         }
       },
+
     );
   }
 }
