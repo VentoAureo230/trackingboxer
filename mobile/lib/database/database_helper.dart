@@ -22,7 +22,11 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     final databasesPath = await getDatabasesPath();
     final path = join(databasesPath, 'trackingboxer_database.db');
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(
+      path, 
+      version: 1, 
+      onCreate: _onCreate
+    );
   }
 
   Future _onCreate(Database db, int version) async {
@@ -30,7 +34,10 @@ class DatabaseHelper {
         CREATE TABLE user (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           first_name TEXT,
-          last_name TEXT
+          last_name TEXT,
+          profileUrl TEXT,
+          email TEXT,
+          password TEXT
         )
       ''');
 

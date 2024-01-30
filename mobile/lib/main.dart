@@ -1,8 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:trackingboxer/pages/auth/login_page.dart';
 import 'database/database_helper.dart';
 
@@ -20,7 +18,8 @@ class MyApp extends StatelessWidget {
       future: DatabaseHelper().database,
       builder: (BuildContext context, AsyncSnapshot<Database> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
+          print('Db loaded');
+          return const MaterialApp(
             title: 'Flutter Camera Demo',
             debugShowCheckedModeBanner: false,
             home: LoginPage(),
@@ -29,7 +28,6 @@ class MyApp extends StatelessWidget {
           return const CircularProgressIndicator();
         }
       },
-
     );
   }
 }
