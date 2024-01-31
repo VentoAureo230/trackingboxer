@@ -11,6 +11,9 @@ class MapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (lat.isNaN || long.isNaN || lat.isInfinite || long.isInfinite) {
+    return Center(child: Text('Les coordonnées ne sont pas valides'));
+  }
     return FlutterMap(
           options: MapOptions(
             initialCenter: LatLng(lat, long),

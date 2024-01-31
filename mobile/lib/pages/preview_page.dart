@@ -32,8 +32,12 @@ class _PreviewPageState extends State<PreviewPage> {
             Image.file(File(widget.picture.path), fit: BoxFit.cover, width: 250),
             const SizedBox(height: 24),
             Text(widget.picture.name),
-            _position != null ? Text('Longitude: ${_position!.longitude} Latitude: ${_position!.latitude}'): Text('No location data'),
-            MapPage(lat: _position!.latitude, long: _position!.longitude, )
+            _position != null ? Text('Longitude: ${_position!.longitude} Latitude: ${_position!.latitude}'): const Text('No location data'),
+            _position != null && _position!.latitude.isFinite && _position!.longitude.isFinite
+            ? Container(
+              height: 400,
+              child: MapPage(lat: _position!.latitude, long: _position!.longitude))
+            : const CircularProgressIndicator(),
           ]),
         ),
       ),
@@ -43,8 +47,10 @@ class _PreviewPageState extends State<PreviewPage> {
   Position? _position;
   void _getCurrentLocation() async {
     Position position = await _determinePosition();
+    print(position);
     setState(() {
       _position = position;
+      print(_position);
     });
   }
   Future<Position> _determinePosition() async {
