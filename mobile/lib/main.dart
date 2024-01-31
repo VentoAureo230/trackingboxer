@@ -1,8 +1,8 @@
+// ignore_for_file: depend_on_referenced_packages
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'pages/home_page.dart';
 import 'database/database_helper.dart';
+import 'pages/auth/main_page_auth.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +18,11 @@ class MyApp extends StatelessWidget {
       future: DatabaseHelper().database,
       builder: (BuildContext context, AsyncSnapshot<Database> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          print('Db loaded');
           return const MaterialApp(
             title: 'Flutter Camera Demo',
             debugShowCheckedModeBanner: false,
-            home: HomePage(),
+            home: MainPageAuth(),
           );
         } else {
           return const CircularProgressIndicator();

@@ -2,10 +2,24 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-class PreviewPage extends StatelessWidget {
+import 'package:geolocator/geolocator.dart';
+
+class PreviewPage extends StatefulWidget {
   const PreviewPage({Key? key, required this.picture}) : super(key: key);
 
   final XFile picture;
+  @override
+  State<PreviewPage> createState() => _PreviewPageState();
+}
+class _PreviewPageState extends State<PreviewPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      _getCurrentLocation();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +27,35 @@ class PreviewPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Preview Page')),
       body: Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
+          Image.file(File(widget.picture.path), fit: BoxFit.cover, width: 250),
           const SizedBox(height: 24),
-          Text(picture.name)
+          Text(widget.picture.name),
+          _position != null ? Text('Longitude: ' + _position!.longitude.toString() + ' Latitude: ' + _position!.latitude.toString()): Text('No location data'),
         ]),
       ),
     );
+  }
+
+  Position? _position;
+  void _getCurrentLocation() async {
+    Position position = await _determinePosition();
+    setState(() {
+      _position = position;
+    });
+  }
+  Future<Position> _determinePosition() async {
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return await Geolocator.getCurrentPosition();
   }
 }
