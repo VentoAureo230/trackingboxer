@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-import '../camera_page.dart';
+import '../pages/camera_page.dart';
 
 class MyAnimatedIcon extends StatefulWidget {
   const MyAnimatedIcon({super.key});
