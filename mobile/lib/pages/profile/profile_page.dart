@@ -57,7 +57,7 @@ Future _saveToDataBase(firstNameController, lastNameController) async {
 
   final String firstName = firstNameController.text;
   final String lastName = lastNameController.text;
-  final String imageUrl = ''; 
+  const String imageUrl = '';
   
   final user = User(0, firstName, lastName, imageUrl);
 

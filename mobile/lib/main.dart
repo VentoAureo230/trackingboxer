@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'homepage.dart';
+import 'pages/home_page.dart';
 import 'database/database_helper.dart';
 
 void main() {
