@@ -109,8 +109,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 User user = snapshot.data!;
                 return Column(
                   children: [
-                    Text('Nom: ${user.lastName}'),
-                    Text('Prénom: ${user.firstName}'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                      child: Column(
+                        children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: image != null
+                            ? FileImage(File(image!.path)) as ImageProvider<Object>?
+                            : NetworkImage(user.profileUrl) as ImageProvider<Object>?,
+                        ),
+                        Text('Nom: ${user.lastName}', style: const TextStyle(fontSize: 24),),
+                        const SizedBox(height: 10,),
+                        Text('Prénom: ${user.firstName}', style: const TextStyle(fontSize: 24)),
+                      ],),
+                    ),
                   ],
                 );
               } else {
@@ -128,6 +141,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     border: OutlineInputBorder(),
                     labelText: 'Prénom',
                   ),
+                ),
+                const SizedBox(
+                  height: 15,
                 ),
                 TextField(
                   controller: lastNameController,

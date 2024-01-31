@@ -15,13 +15,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 3, 87, 132),
+        backgroundColor: Color(0xFF4654A3),
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => ProfilePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfilePage()));
             }, 
             icon: const Icon(Icons.person, color: Colors.white))
         ],
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           child: MyAnimatedIcon(),
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 3, 87, 132),
+      backgroundColor: Color(0xFF4654A3),
     );
   }
 }
