@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:trackingboxer/pages/map_page.dart';
 
 class PreviewPage extends StatefulWidget {
   const PreviewPage({Key? key, required this.picture}) : super(key: key);
@@ -26,12 +27,15 @@ class _PreviewPageState extends State<PreviewPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Preview Page')),
       body: Center(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Image.file(File(widget.picture.path), fit: BoxFit.cover, width: 250),
-          const SizedBox(height: 24),
-          Text(widget.picture.name),
-          _position != null ? Text('Longitude: ' + _position!.longitude.toString() + ' Latitude: ' + _position!.latitude.toString()): Text('No location data'),
-        ]),
+        child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Image.file(File(widget.picture.path), fit: BoxFit.cover, width: 250),
+            const SizedBox(height: 24),
+            Text(widget.picture.name),
+            _position != null ? Text('Longitude: ${_position!.longitude} Latitude: ${_position!.latitude}'): Text('No location data'),
+            MapPage(lat: _position!.latitude, long: _position!.longitude, )
+          ]),
+        ),
       ),
     );
   }
