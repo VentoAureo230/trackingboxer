@@ -24,6 +24,16 @@ class MapPage extends StatelessWidget {
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               userAgentPackageName: 'com.example.app',
             ),
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: LatLng(lat, long),
+                  width: 80,
+                  height: 80,
+                  child: Image.asset('assets/location.png'),
+                ),
+              ],
+            ),
             RichAttributionWidget(
               attributions: [
                 TextSourceAttribution(

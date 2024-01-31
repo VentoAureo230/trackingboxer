@@ -1,11 +1,11 @@
 class Photo {
-  final int id;
+  final int? id;
   final String url;
   final String longitude;
   final String latitude;
   final DateTime publicationDate;
 
-  Photo({required this.id, required this.url, required this.longitude, required this.latitude, required this.publicationDate});
+  Photo({this.id, required this.url, required this.longitude, required this.latitude, required this.publicationDate});
 
   factory Photo.fromMap(Map<String, dynamic> map) {
     return Photo(
@@ -18,12 +18,17 @@ class Photo {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'url': url,
-      'longitude': longitude,
-      'latitude': latitude,
-      'publication_date': publicationDate.toIso8601String(),
+    var map = {
+        'url': url,
+        'longitude': longitude,
+        'latitude': latitude,
+        'publication_date': publicationDate.toIso8601String(),
     };
+
+    if (id != null && id != 0) {
+      map['id'] = id as String;
+    }
+
+    return map;
   }
 }
