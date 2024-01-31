@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:trackingboxer/jump_page.dart';
 
 class PreviewPage extends StatefulWidget {
   const PreviewPage({Key? key, required this.picture}) : super(key: key);
@@ -31,6 +32,15 @@ class _PreviewPageState extends State<PreviewPage> {
           const SizedBox(height: 24),
           Text(widget.picture.name),
           _position != null ? Text('Longitude: ' + _position!.longitude.toString() + ' Latitude: ' + _position!.latitude.toString()): Text('No location data'),
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => JumpPage()));
+            },
+            child: Text('Commencer à sauter'),
+          )
         ]),
       ),
     );
