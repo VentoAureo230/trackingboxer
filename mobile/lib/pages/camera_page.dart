@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'preview_page.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:path_provider/path_provider.dart';
+import '../database/database_helper.dart';
+import '../services/location_service.dart';
 
 class CameraPage extends StatefulWidget {
-  const CameraPage({Key? key, required this.cameras}) : super(key: key);
+  const CameraPage({super.key, required this.cameras});
 
   final List<CameraDescription>? cameras;
 
@@ -16,6 +20,7 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   late CameraController _cameraController;
   bool _isRearCameraSelected = true;
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
 
   @override
   void dispose() {
@@ -29,7 +34,7 @@ class _CameraPageState extends State<CameraPage> {
     initCamera(widget.cameras![0]);
   }
 
-  Future takePicture() async {
+  Future<String?> takePicture() async {
     if (!_cameraController.value.isInitialized) {
       return null;
     }
@@ -39,15 +44,27 @@ class _CameraPageState extends State<CameraPage> {
     try {
       await _cameraController.setFlashMode(FlashMode.off);
       XFile picture = await _cameraController.takePicture();
-      
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PreviewPage(
-                    picture: picture,
-                  )));
-    } on CameraException catch (e) {
-      debugPrint('Error occured while taking picture: $e');
+
+      LocationService locationService = LocationService();
+      Position position = await locationService.getCurrentLocation();
+      final double longitude = position.longitude;
+      final double latitude = position.latitude;
+
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String mediaPath = '${appDocDir.path}/media';
+      Directory mediaDir = Directory(mediaPath);
+      if (!mediaDir.existsSync()) {
+        mediaDir.createSync();
+      }
+
+      String imagePath = '$mediaPath/${DateTime.now()}.jpg';
+      File(picture.path).copy(imagePath);
+
+      //await insertPhotoAndTraining(longitude, latitude, imagePath);
+
+      return imagePath;
+    } catch (e) {
+      print(e);
       return null;
     }
   }
@@ -112,5 +129,8 @@ class _CameraPageState extends State<CameraPage> {
             )),
       ]),
     ));
+  }
+  Future insertPhotoAndTraining(String url, String longitude, String latitude, DateTime publicationDate) async {
+    final db = await _databaseHelper.database;
   }
 }
