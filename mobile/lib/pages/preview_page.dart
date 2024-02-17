@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:trackingboxer/models/photo.dart';
 import 'package:trackingboxer/pages/map_page.dart';
@@ -11,7 +10,7 @@ import 'package:trackingboxer/pages/map_page.dart';
 import '../database/database_helper.dart';
 
 class PreviewPage extends StatefulWidget {
-  const PreviewPage({Key? key, required this.picture}) : super(key: key);
+  const PreviewPage({super.key, required this.picture});
 
   final XFile picture;
   @override
