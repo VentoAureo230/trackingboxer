@@ -92,6 +92,11 @@ Future<bool> _saveToDataBase(String email, String password) async {
       profileUrl: 'profileUrl',
       email: email,
       password: password);
+
+
+
+
+      ezffze
   
   try {
     int id = await database.insert(
